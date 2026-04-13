@@ -8,7 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 from dotenv import load_dotenv
-from backend.rag_pipeline import get_rag_pipeline
+from rag_pipeline import get_rag_pipeline
 # from app.knowledge_loader import initialize_knowledge_base
 
 # Load environment variables
