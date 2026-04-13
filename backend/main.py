@@ -152,33 +152,6 @@ async def chat_stream(request: ChatRequest):
     return StreamingResponse(generate(), media_type="text/plain")
 
 
-# @app.post("/initialize")
-# async def initialize():
-#     """
-#     Initialize or reinitialize the knowledge base.
-#     This endpoint loads the portfolio data and creates embeddings.
-#     """
-#     try:
-#         logger.info("Initializing knowledge base...")
-#         initialize_knowledge_base()
-        
-#         # Reinitialize the RAG pipeline
-#         global rag_pipeline
-#         rag_pipeline = get_rag_pipeline()
-        
-#         logger.info("Knowledge base initialized successfully")
-#         return {
-#             "status": "success",
-#             "message": "Knowledge base initialized successfully"
-#         }
-#     except Exception as e:
-#         logger.error(f"Error initializing knowledge base: {e}", exc_info=True)
-#         raise HTTPException(
-#             status_code=500,
-#             detail=f"Error initializing knowledge base: {str(e)}"
-#         )
-
-
 if __name__ == "__main__":
     import uvicorn
     

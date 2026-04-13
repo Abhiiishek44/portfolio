@@ -42,24 +42,6 @@ class RAGPipeline:
         self.model_name = os.getenv("MODEL_NAME", "gemini-1.5-flash")
         logger.info(f"RAG Pipeline initialized successfully with model: {self.model_name}")
     
-    # def retrieve_context(self, query: str, top_k: int = 5) -> List[Dict[str, Any]]:
-    #     """
-    #     Retrieve relevant context from the vector database.
-        
-    #     Args:
-    #         query: User query string
-    #         top_k: Number of top results to retrieve
-            
-    #     Returns:
-    #         List of relevant documents with scores
-    #     """
-    #     # Convert query to embedding
-    #     query_embedding = self.embedding_model.encode(query)
-        
-    #     # Search for similar documents
-    #     results = self.vector_store.search_similar(query_embedding, top_k=top_k)
-        
-    #     return results
     
     def create_prompt(self, query: str) -> str:
 
@@ -148,32 +130,6 @@ Answer:"""
             yield "I apologize, but I'm having trouble generating a response right now. Please try again."
 
 
-    # # def answer_question(self, query: str) -> dict:
-    #     """
-    #     Main method to answer a user question (non-streaming).
-        
-    #     Args:
-    #         query: User's question
-            
-    #     Returns:
-    #         Dictionary containing the answer
-    #     """
-    #     logger.info(f"Processing query: {query}")
-
-    #     # Create prompt
-    #     prompt = self.create_prompt(query)
-
-    #     # Collect streaming response into a single string
-    #     answer_parts = []
-    #     for chunk in self.generate_streaming_response(prompt):
-    #         answer_parts.append(chunk)
-
-    #     answer = "".join(answer_parts)
-
-    #     return {
-    #         "answer": answer,
-    #     }
-
     def answer_question_stream(self, query: str):
         """
         Main method to answer a user question using prompt + streaming.
@@ -186,12 +142,6 @@ Answer:"""
         """
         logger.info(f"Processing streaming query: {query}")
         
-        # Retrieve relevant context
-        # context_documents = self.retrieve_context(query, top_k=5)
-        
-        # if not context_documents:
-        #     yield "I don't have enough information to answer that question about Abhishek's portfolio."
-        #     return
         
         # Create prompt
         prompt = self.create_prompt(query)
