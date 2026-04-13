@@ -7,8 +7,10 @@ import Footer from '../components/Footer';
 function Home() {
   const [inputValue, setInputValue] = useState('');
   const [messages, setMessages] = useState([]);
+  const [isStreaming, setIsStreaming] = useState(false);
   const messagesEndRef = useRef(null);
   const chatContainerRef = useRef(null);
+  const abortControllerRef = useRef(null);
   
   const questions = [
     { label: 'Work', question: 'Tell me about your work experience?' },
@@ -17,13 +19,6 @@ function Home() {
     { label: 'Contact', question: 'How can I contact you?' }
   ];
 
-  const responses = {
-    'Tell me about your work experience?': 'I am currently working as a Maintainer at Voxora (Open Source) since July 2025. I maintain and support the project by reviewing contributions, managing issues, and ensuring code quality. I actively work on LangChain based AI features to improve user experience.',
-    'Who are you and what do you do?': 'I am Abhishek Kumbhar, currently pursuing a degree in AI & Data Science. I focus on AI/ML application engineering, working with pre-trained machine learning models, fine-tuning them, and integrating them into real-world applications.',
-    'What are your technical skills?': 'I work with AI & Machine Learning (Python, NumPy, Pandas, Scikit-learn, TensorFlow, PyTorch), Application Development (React, Vite, Tailwind CSS, JavaScript, FastAPI), Databases (MongoDB, MySQL), and AI & LLMs (LangChain, LangGraph, Hugging Face, OpenAI).',
-    'How can I contact you?': 'You can reach me via email at abhishekkumbhar2004@gmail.com or connect with me on LinkedIn, GitHub, or Twitter. All links are available in the footer section!'
-  };
-
   // Auto-scroll to bottom when messages change
   useEffect(() => {
     if (chatContainerRef.current) {
@@ -31,31 +26,104 @@ function Home() {
     }
   }, [messages]);
 
+  useEffect(() => {
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+    };
+  }, []);
+
   const handleQuestionClick = (question) => {
     setInputValue(question);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (inputValue.trim()) {
-      // Add user message
-      setMessages(prev => [...prev, { type: 'user', text: inputValue }]);
-      
-      // Get response
-      const response = responses[inputValue] || "Thanks for your question! Feel free to explore my portfolio to learn more about me, or try one of the suggested questions above.";
-      
-      // Add bot response after a short delay
-      setTimeout(() => {
-        setMessages(prev => [...prev, { type: 'bot', text: response }]);
-      }, 500);
-      
-      // Clear input
-      setInputValue('');
+  const handleStopGeneration = () => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e?.preventDefault?.();
+    if (!inputValue.trim() || isStreaming) return;
+
+    const userMessage = inputValue.trim();
+    setInputValue('');
+    
+    // Add user message to chat
+    setMessages(prev => [...prev, { type: 'user', text: userMessage }]);
+    setIsStreaming(true);
+
+    try {
+      abortControllerRef.current = new AbortController();
+
+      const response = await fetch('/api/chat/stream', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'text/plain',
+        },
+        body: JSON.stringify({ message: userMessage }),
+        signal: abortControllerRef.current.signal,
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+
+      setMessages(prev => [...prev, { type: 'bot', text: '', isStreaming: true }]);
+      let accumulatedText = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        
+        if (done) {
+          setMessages(prev => {
+            const newMessages = [...prev];
+            const lastMessage = newMessages[newMessages.length - 1];
+            if (lastMessage && lastMessage.type === 'bot') {
+              lastMessage.isStreaming = false;
+            }
+            return newMessages;
+          });
+          break;
+        }
+
+        const chunk = decoder.decode(value, { stream: true });
+        accumulatedText += chunk;
+
+        setMessages(prev => {
+          const newMessages = [...prev];
+          const lastMessage = newMessages[newMessages.length - 1];
+          if (lastMessage && lastMessage.type === 'bot') {
+            lastMessage.text = accumulatedText;
+          }
+          return newMessages;
+        });
+      }
+    } catch (error) {
+      if (error.name === 'AbortError') {
+        console.log('Request aborted');
+      } else {
+        console.error('Error:', error);
+        setMessages(prev => [
+          ...prev,
+          { type: 'bot', text: 'Sorry, I encountered an error connecting to the backend.', isStreaming: false }
+        ]);
+      }
+    } finally {
+      setIsStreaming(false);
+      abortControllerRef.current = null;
     }
   };
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
+      e.preventDefault();
       handleSubmit(e);
     }
   };
@@ -87,6 +155,9 @@ function Home() {
                                             }`}
                                         >
                                             {message.text}
+                                            {message.isStreaming && (
+                                                <span className="inline-block w-[3px] h-4 ml-1 bg-red-500 animate-pulse"></span>
+                                            )}
                                         </div>
                                     </div>
                                 ))}
@@ -95,7 +166,18 @@ function Home() {
                         ) : (
                             <div className="flex items-center justify-center h-full">
                                 <p className="font-geist text-[#A6AAB0] text-[18px] leading-[29px]">
-                                    Ask me anything about Abhishek...
+                                    {isStreaming ? (
+                                        <span className="flex items-center gap-2">
+                                            <span className="animate-pulse">Generating response</span>
+                                            <span className="flex gap-1">
+                                                <span className="w-2 h-2 bg-red-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
+                                                <span className="w-2 h-2 bg-red-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
+                                                <span className="w-2 h-2 bg-red-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
+                                            </span>
+                                        </span>
+                                    ) : (
+                                        'Ask me anything about Abhishek...'
+                                    )}
                                 </p>
                             </div>
                         )}
@@ -105,8 +187,10 @@ function Home() {
                         {questions.map((item) => (
                             <button
                                 key={item.label}
+                                type="button"
                                 onClick={() => handleQuestionClick(item.question)}
-                                className="rounded-full border border-white/10 bg-white/[0.04] px-4 py-1.5 text-sm font-geist text-red-500 hover:bg-white/[0.08] hover:text-red-400 transition-all cursor-pointer"
+                                disabled={isStreaming}
+                                className="rounded-full border border-white/10 bg-white/[0.04] px-4 py-1.5 text-sm font-geist text-red-500 hover:bg-white/[0.08] hover:text-red-400 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 {item.label}
                             </button>
@@ -118,15 +202,18 @@ function Home() {
                             type="text"
                             value={inputValue}
                             onChange={(e) => setInputValue(e.target.value)}
-                            onKeyPress={handleKeyPress}
+                            onKeyDown={handleKeyPress}
                             placeholder="Ask anything about Abhishek..."
                             className="w-full bg-transparent font-geist text-sm text-red-500 placeholder:text-[#A6AAB0] outline-none"
+                            disabled={isStreaming}
                         />
                         <button
-                            type="submit"
-                            className="text-red-500 hover:text-red-400 transition-colors font-geist text-sm font-medium"
+                            type={isStreaming ? "button" : "submit"}
+                            onClick={isStreaming ? handleStopGeneration : undefined}
+                            className="text-red-500 hover:text-red-400 transition-colors font-geist text-sm font-medium disabled:opacity-50"
+                            disabled={!isStreaming && !inputValue.trim()}
                         >
-                            Send
+                            {isStreaming ? "Stop" : "Send"}
                         </button>
                     </form>
                 </div>
