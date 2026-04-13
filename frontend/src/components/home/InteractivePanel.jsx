@@ -51,7 +51,7 @@ const InteractivePanel = () => {
       // Create abort controller for this request
       abortControllerRef.current = new AbortController();
 
-      const response = await fetch('http://localhost:8000/chat/stream', {
+      const response = await fetch('https://portfolio-production-c039.up.railway.app/chat/stream', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
