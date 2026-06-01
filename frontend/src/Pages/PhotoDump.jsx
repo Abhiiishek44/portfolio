@@ -1,61 +1,130 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { FiArrowLeft, FiCamera, FiX } from 'react-icons/fi';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import me1 from '../assets/photoDump/me1.jpeg';
 import me2 from '../assets/photoDump/me2.jpeg';
 import me3 from '../assets/photoDump/me3.jpeg';
 import me4 from '../assets/photoDump/me4.jpeg';
-import me5 from '../assets/photoDump/me5.jpeg';
+
+const photos = [
+  { src: me1, title: 'Photo 01', tone: 'Portrait' },
+  { src: me2, title: 'Photo 02', tone: 'Memory' },
+  { src: me3, title: 'Photo 03', tone: 'Moment' },
+  { src: me4, title: 'Photo 04', tone: 'Square Frame' },
+];
 
 const PhotoDump = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
-  const photos = [me1, me2, me3, me4, me5];
+  const activePhoto = photos[activeIndex];
 
   return (
-    <>
+    <div className="min-h-screen bg-[#fff8f8] text-[#1f1a1b]">
       <Navbar />
-      <div className="flex justify-center mt-10 px-6 md:px-0 mb-20">
-        <div className="w-full max-w-4xl">
-             <div className="flex flex-col gap-6">
-                <h1 className="text-3xl font-bold font-geist text-white">Photo Dump 📸</h1>
-                <p className="font-geist text-[#A6AAB0] text-[18px] leading-[29px]">
-                    A collection of random clicks and memories. Click on any photo to view it larger.
+
+      <main className="mx-auto w-full max-w-7xl px-5 py-14 sm:px-8 lg:px-10">
+        <a
+          href="/"
+          className="inline-flex items-center gap-2 font-geist text-xs uppercase tracking-[0.14em] text-[#4e4448] transition hover:text-[#6b4e5b]"
+        >
+          <FiArrowLeft />
+          Back Home
+        </a>
+
+        <section className="mt-10 grid gap-10 border-b border-[#eae0e1] pb-12 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
+          <div>
+            <div className="flex items-center gap-3">
+              <span className="flex h-10 w-10 items-center justify-center border border-[#eae0e1] bg-[#f0dae3] text-[#6b4e5b]" aria-hidden="true">
+                <FiCamera size={20} />
+              </span>
+              <p className="font-geist text-[11px] uppercase tracking-[0.18em] text-[#6b4e5b]">
+                Photo Dump
+              </p>
+            </div>
+            <h1 className="mt-5 max-w-3xl font-system text-5xl font-semibold leading-tight text-[#1f1a1b] sm:text-6xl">
+              A personal gallery of photos and memories.
+            </h1>
+            <p className="mt-5 max-w-xl font-system text-base leading-7 text-[#4e4448]">
+              A separate corner of the portfolio for pictures, moments, and the parts of life that do not belong in a project card.
+            </p>
+          </div>
+
+          <div className="border border-[#eae0e1] bg-white p-3 shadow-[0_2px_24px_rgba(82,55,68,0.04)]">
+            <button
+              type="button"
+              className="group block w-full overflow-hidden bg-[#f5eced]"
+              onClick={() => setSelectedPhoto(activePhoto)}
+            >
+              <img
+                src={activePhoto.src}
+                alt={activePhoto.title}
+                className="aspect-[16/11] w-full object-cover transition duration-500 group-hover:scale-[1.02]"
+              />
+            </button>
+            <div className="mt-4 flex items-center justify-between gap-4 border-t border-[#eae0e1] pt-4">
+              <div>
+                <p className="font-geist text-[11px] uppercase tracking-[0.16em] text-[#6b4e5b]">
+                  {activePhoto.tone}
                 </p>
-                
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-4">
-                    {photos.map((photo, index) => (
-                        <div 
-                            key={index} 
-                            className="relative group overflow-hidden rounded-xl border border-white/10 aspect-[3/4] cursor-pointer"
-                            onClick={() => setSelectedPhoto(photo)}
-                        >
-                            <img 
-                                src={photo} 
-                                alt={`Memory ${index + 1}`} 
-                                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                            />
-                        </div>
-                    ))}
-                </div>
-             </div>
-        </div>
-      </div>
+                <h2 className="mt-1 font-system text-xl font-semibold text-[#1f1a1b]">
+                  {activePhoto.title}
+                </h2>
+              </div>
+              <p className="font-geist text-[11px] uppercase tracking-[0.16em] text-[#807478]">
+                {String(activeIndex + 1).padStart(2, '0')} / {String(photos.length).padStart(2, '0')}
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+          {photos.map((photo, index) => index !== activeIndex && (
+            <button
+              key={photo.title}
+              type="button"
+              className="group overflow-hidden border border-[#eae0e1] bg-white text-left transition duration-300 hover:border-[#6b4e5b]"
+              onClick={() => setActiveIndex(index)}
+            >
+              <img
+                src={photo.src}
+                alt={photo.title}
+                className="aspect-[4/5] w-full object-cover transition duration-500 group-hover:scale-[1.025]"
+              />
+              <div className="flex items-center justify-between gap-4 border-t border-[#eae0e1] px-4 py-3">
+                <span className="font-geist text-[11px] uppercase tracking-[0.14em] text-[#4e4448]">{photo.title}</span>
+                <span className="font-geist text-[11px] uppercase tracking-[0.14em] text-[#6b4e5b]">{photo.tone}</span>
+              </div>
+            </button>
+          ))}
+        </section>
+      </main>
 
       {selectedPhoto && (
-        <div 
-            className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4 backdrop-blur-sm"
-            onClick={() => setSelectedPhoto(null)}
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 backdrop-blur-sm"
+          onClick={() => setSelectedPhoto(null)}
         >
-            <div className="relative">
-                <img 
-                    src={selectedPhoto} 
-                    alt="Full view" 
-                    className="max-h-[85vh] max-w-full object-contain rounded-lg shadow-2xl" 
-                />
-            </div>
+          <div className="relative max-h-[90vh] max-w-5xl" onClick={(event) => event.stopPropagation()}>
+            <button
+              type="button"
+              className="absolute right-3 top-3 flex h-10 w-10 items-center justify-center border border-white/15 bg-black/60 text-white transition hover:border-[#f0dae3] hover:text-[#f0dae3]"
+              aria-label="Close photo"
+              onClick={() => setSelectedPhoto(null)}
+            >
+              <FiX size={20} />
+            </button>
+            <img
+              src={selectedPhoto.src}
+              alt={selectedPhoto.title}
+              className="max-h-[90vh] w-full object-contain shadow-2xl shadow-black/60"
+            />
+          </div>
         </div>
       )}
-    </>
+
+      <Footer />
+    </div>
   );
 };
 

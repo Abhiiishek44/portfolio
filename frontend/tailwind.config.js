@@ -7,10 +7,10 @@ export default {
   theme: {
     extend: {
       colors: {
-        'bg-primary': '#1f1f1fff',
-        'text-primary': '#ffffff',
-        'text-secondary': '#069867',
-        'separator': '#555',
+        'bg-primary': '#fff8f8',
+        'text-primary': '#1f1a1b',
+        'text-secondary': '#4e4448',
+        'separator': '#eae0e1',
       },
       fontFamily: {
         'geist': ['"Geist Mono"', 'monospace'],

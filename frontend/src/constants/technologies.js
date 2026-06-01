@@ -5,15 +5,15 @@ export const TECHNOLOGIES = [
   },
   {
     category: 'Application Development',
-    skills: ['React', 'Vite', 'Tailwind CSS', 'JavaScript', 'FastAPI']
+    skills: ['React', 'Vite', 'Tailwind CSS', 'JavaScript', 'TypeScript', 'Node.js', 'Express', 'FastAPI']
   },
   {
     category: 'Databases',
-    skills: ['MongoDB', 'MySQL']
+    skills: ['MongoDB', 'MySQL', 'Redis']
   },
   {
     category: 'Tools',
-    skills: ['Git', 'GitHub', 'VS Code', 'Postman']
+    skills: ['Docker', 'Git', 'GitHub', 'VS Code', 'Postman']
   },
   {
     category: 'AI & LLMs',

@@ -2,8 +2,8 @@ import React from 'react';
 
 const Card = ({ children, className = '', variant = 'default' }) => {
   const variants = {
-    default: 'rounded-md border border-white/10 bg-white/[0.03]',
-    secondary: 'rounded-xl border border-white/10 bg-white/[0.02]',
+    default: 'rounded-md border border-[#eae0e1] bg-white',
+    secondary: 'rounded-xl border border-[#eae0e1] bg-[#fff8f8]',
     ghost: 'rounded-lg bg-transparent'
   };
 

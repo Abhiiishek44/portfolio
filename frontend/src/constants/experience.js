@@ -1,11 +1,11 @@
 export const EXPERIENCE = [
   {
-    period: 'July 2025 – Present',
-    role: 'Maintainer',
-    company: 'Voxora',
-    companyUrl: 'https://github.com/voxora-cloud/voxora',
+    period: 'July 2025 - Present',
+    role: 'Founding Developer',
+    company: 'InteraOne',
+    companyUrl: 'https://www.interaone.app/',
     type: 'Open Source',
     description:
-      'Maintaining and supporting the Voxora open-source project by reviewing contributions, managing issues, and ensuring code quality. Actively working on LangChain based AI features to improve user experience and overall platform functionality.'
+      'Building and contributing to an AI-powered customer support automation platform, with focus on practical AI features, product flows, application architecture, and platform improvements.'
   }
 ];

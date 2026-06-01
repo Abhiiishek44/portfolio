@@ -1,31 +1,21 @@
 export const PROJECTS = [
   {
-    title: 'Voxora (Open Source)',
+    title: 'InteraOne',
     description:
-      'Real-time communication platform with AI-assisted features, designed for low-latency and reliability.',
-    tags: ['WebRTC', 'Node.js', 'AI/ML'],
+      'End-to-end customer support automation platform for turning products into intelligent products.',
+    tags: ['AI Applications', 'Customer Support Automation', 'Product Engineering'],
     links: {
-      github: 'https://github.com/voxora-cloud/voxora',
-      live: 'https://www.voxora.cloud/',
-    },
-  },
-  {
-    title: 'AI Resume Analyzer',
-    description:
-      'NLP-based tool that parses resumes and matches them to job descriptions with confidence scoring.',
-    tags: ['Python', 'LangChain', 'FastAPI'],
-    links: {
-      github: '#',
+      github: 'https://github.com/InteraOne/InteraOne',
       live: '#',
     },
   },
   {
-    title: 'Realtime Support Bot',
+    title: 'Code Dependency Visualizer',
     description:
-      'Multi-channel chat assistant with streaming responses and context-aware handoffs.',
-    tags: ['React', 'Vite', 'Redis'],
+      'In-progress developer tool for visualizing code dependencies and understanding project structure.',
+    tags: ['Developer Tools', 'Code Analysis', 'Visualization'],
     links: {
-      github: '#',
+      github: 'https://github.com/Abhiiishek44/codeDependencyVisualizer',
       live: '#',
     },
   },
