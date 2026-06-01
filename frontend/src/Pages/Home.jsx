@@ -74,7 +74,7 @@ function Home() {
                 <FiArrowRight className="transition-transform group-hover:translate-x-0.5" />
               </a>
               <a
-                href="/#photodump"
+                href="/photodump"
                 className="inline-flex items-center justify-center gap-2 rounded-sm border border-[#eae0e1] bg-white px-5 py-3 font-geist text-sm font-semibold text-[#1f1a1b] transition duration-300 hover:border-[#6b4e5b] hover:bg-[#f5eced]"
               >
                 Photo Dump
