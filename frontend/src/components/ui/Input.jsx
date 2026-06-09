@@ -8,13 +8,13 @@ const Input = ({
   ...props 
 }) => {
   return (
-    <div className="rounded-full border border-[#eae0e1] bg-white px-5 py-3">
+    <div className="rounded-full border border-[#2b2b2d] bg-[#171717] px-5 py-3">
       <input
         type="text"
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className={`w-full bg-transparent font-geist text-sm text-[#6b4e5b] placeholder:text-[#807478] outline-none ${className}`}
+        className={`w-full bg-transparent font-geist text-sm text-[#f4f2f3] placeholder:text-[#8f888d] outline-none ${className}`}
         {...props}
       />
     </div>

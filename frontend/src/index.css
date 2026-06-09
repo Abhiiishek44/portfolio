@@ -8,18 +8,18 @@
   }
 
   body {
-    @apply bg-[#fff8f8] text-[#1f1a1b];
+    @apply bg-[#0d0d0e] text-[#f4f2f3];
   }
 }
 
 @layer components {
   .nav-link {
-    @apply relative py-2 transition hover:text-[#6b4e5b];
+    @apply relative py-2 transition hover:text-[#d8b7c7];
   }
 
   .nav-link::after {
     content: '';
-    @apply absolute inset-x-0 -bottom-0.5 h-px origin-left scale-x-0 bg-[#6b4e5b] transition-transform duration-300;
+    @apply absolute inset-x-0 -bottom-0.5 h-px origin-left scale-x-0 bg-[#7b5869] transition-transform duration-300;
   }
 
   .nav-link:hover::after {

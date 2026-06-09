@@ -10,9 +10,9 @@ const Button = ({
   const baseStyles = 'rounded-full border px-4 py-1.5 text-sm font-geist transition-all cursor-pointer';
   
   const variants = {
-    default: 'border-[#eae0e1] bg-white text-[#6b4e5b] hover:bg-[#f5eced]',
-    primary: 'border-[#6b4e5b] bg-[#6b4e5b] text-white hover:bg-[#5d4350]',
-    ghost: 'border-transparent text-[#4e4448] hover:text-[#6b4e5b]'
+    default: 'border-[#2b2b2d] bg-[#171717] text-[#d8b7c7] hover:bg-[#221a1f]',
+    primary: 'border-[#7b5869] bg-[#7b5869] text-white hover:bg-[#8b6678]',
+    ghost: 'border-transparent text-[#b9b3b7] hover:text-[#d8b7c7]'
   };
 
   return (
