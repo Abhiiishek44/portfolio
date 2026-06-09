@@ -21,6 +21,7 @@ const Footer = () => {
                     <div className="flex gap-5">
                         <a href="https://github.com/Abhiiishek44" target="_blank" rel="noopener noreferrer" className="transition hover:text-[#d8b7c7]">GitHub</a>
                         <a href="https://www.linkedin.com/in/abhishekkumbhar4615" target="_blank" rel="noopener noreferrer" className="transition hover:text-[#d8b7c7]">LinkedIn</a>
+                        <a href="mailto:abhishekkumbhar2004@gmail.com" className="transition hover:text-[#d8b7c7]">Email</a>
                     </div>
                 </div>
             </div>
