@@ -6,7 +6,7 @@ const Footer = () => {
                     <div>
                         <h2 className="font-system text-lg font-semibold text-[#f4f2f3]">Abhishek Kumbhar</h2>
                         <p className="mt-2 font-geist text-xs uppercase tracking-[0.16em] text-[#8f888d]">
-                            AI Application Developer
+                            AI Engineer
                         </p>
                     </div>
                     <div className="flex flex-wrap gap-x-5 gap-y-3 font-geist text-xs uppercase tracking-[0.14em] text-[#b9b3b7]">

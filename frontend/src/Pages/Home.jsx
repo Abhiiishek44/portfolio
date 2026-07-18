@@ -1,217 +1,259 @@
-import { FiArrowRight, FiExternalLink, FiGithub } from 'react-icons/fi';
+import { FiArrowUpRight, FiGithub, FiMail, FiStar } from 'react-icons/fi';
 import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
 import avatarImage from '../assets/images/me.jpeg';
 
-const stackGroups = [
+const skills = [
   {
-    label: 'Model Engineering',
-    tools: ['Python', 'Scikit-learn', 'TensorFlow', 'PyTorch', 'Hugging Face'],
+    title: 'AI',
+    tools: ['Python', 'PyTorch', 'TensorFlow', 'Hugging Face', 'LangChain', 'LangGraph'],
   },
   {
-    label: 'Agentic Applications',
-    tools: ['LLMs', 'LangChain', 'LangGraph', 'React', 'Tailwind CSS', 'JavaScript', 'TypeScript', 'FastAPI', 'Node.js'],
+    title: 'Web',
+    tools: ['React', 'TypeScript', 'JavaScript', 'Node.js', 'FastAPI', 'Tailwind CSS'],
   },
   {
-    label: 'Backend & Data',
-    tools: ['PostgreSQL', 'MongoDB', 'MySQL', 'Redis', 'Express', 'Docker', 'Git', 'GitHub', 'Postman'],
+    title: 'Data & tools',
+    tools: ['PostgreSQL', 'MongoDB', 'Redis', 'Docker', 'Git', 'Postman'],
   },
 ];
 
-const heroHighlights = ['LLM Apps', 'Backend Systems', 'Product Engineering'];
-
-const founderTags = [
-  'Founding Developer',
-  'AI Support Platform',
-  'Product Architecture',
-  'Open Source',
+const workItems = [
+  'Build features from early ideas through to release.',
+  'Contribute across AI, frontend, and backend.',
+  'Build stable systems that can grow with the product.',
 ];
 
-function SystemLabel({ children, className = '' }) {
+const contributions = [
+  {
+    name: 'Apache Superset',
+    stars: '+73.9k',
+    description:
+      'Contributed a merged fix to Apache Superset, working through the issue, existing system behaviour, test cases, and reviewer feedback.',
+    link: 'https://github.com/apache/superset/pull/41975',
+  },
+  {
+    name: 'Odysseus AI',
+    stars: '+83.2k',
+    description:
+      'Contributed to a large open-source AI project by investigating an existing problem and implementing a maintainable solution.',
+    link: 'https://github.com/odysseus-dev/odysseus/pull/3840',
+  },
+];
+
+function SectionLabel({ children }) {
   return (
-    <span className={`font-geist text-[11px] uppercase tracking-[0.18em] text-[#d8b7c7] ${className}`}>
+    <p className="font-geist text-xs font-medium uppercase tracking-[0.18em] text-[#a3e635]">
       {children}
-    </span>
+    </p>
   );
 }
 
 function Home() {
   return (
-    <div className="min-h-screen overflow-hidden bg-[#0d0d0e] text-[#f4f2f3]">
+    <div className="min-h-screen bg-[#1A1A1A] text-[#f5f5f0]">
       <Navbar />
 
       <main>
-        <section id="about" className="relative mx-auto grid min-h-[calc(100vh-84px)] w-full max-w-7xl grid-cols-1 items-center gap-12 px-5 py-14 sm:px-8 lg:grid-cols-[1.08fr_0.92fr] lg:px-10 lg:py-16">
-          <div className="absolute inset-x-0 top-0 h-px bg-[#2b2b2d]" />
+        <section
+          id="home"
+          className="mx-auto grid min-h-[calc(100vh-73px)] max-w-6xl items-center gap-14 px-5 py-16 sm:px-8 lg:grid-cols-[1.25fr_0.75fr] lg:px-10"
+        >
+          <div className="animate-reveal">
+            <div className="mb-8 flex items-center gap-3 text-sm text-[#b5b5ad]">
+              <span className="h-2 w-2 rounded-full bg-[#a3e635]" />
+              AI Engineer
+            </div>
 
-          <div className="max-w-3xl animate-reveal">
-            <SystemLabel>AI Application Developer</SystemLabel>
-            <h1 className="mt-6 max-w-4xl font-system text-5xl font-semibold leading-[1.04] text-[#f4f2f3] sm:text-6xl lg:text-7xl">
-              Building useful AI products with clean, reliable software.
+            <h1 className="max-w-4xl text-5xl font-semibold leading-[1.05] tracking-[-0.045em] sm:text-6xl lg:text-7xl">
+              Building reliable AI systems with practical engineering.
             </h1>
-            <p className="mt-6 max-w-2xl font-system text-lg leading-8 text-[#d4ced2]">
-              I am an AI application developer focused on building practical AI-powered products, integrating intelligent systems with reliable application architecture.
+
+            <p className="mt-7 max-w-2xl text-lg leading-8 text-[#b5b5ad] sm:text-xl">
+              I&apos;m Abhishek, an AI engineer who builds products end to end—from AI features and backend systems to the final user experience.
             </p>
 
-            <div className="mt-8 flex flex-wrap gap-2">
-              {heroHighlights.map((item) => (
-                <span key={item} className="border border-[#2b2b2d] bg-[#171717] px-3 py-2 font-geist text-[11px] uppercase tracking-[0.14em] text-[#b9b3b7]">
-                  {item}
-                </span>
-              ))}
-            </div>
-
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
+            <div className="mt-9 flex flex-wrap gap-3">
               <a
-                href="#interaone"
-                className="group inline-flex items-center justify-center gap-2 rounded-sm bg-[#7b5869] px-5 py-3 font-geist text-sm font-semibold text-white shadow-[0_18px_36px_rgba(0,0,0,0.28)] transition duration-300 hover:bg-[#8b6678]"
+                href="#work"
+                className="inline-flex items-center gap-2 rounded-full bg-[#f5f5f0] px-5 py-3 text-sm font-semibold text-[#1A1A1A] transition hover:bg-[#a3e635]"
               >
-                Explore InteraOne
-                <FiArrowRight className="transition-transform group-hover:translate-x-0.5" />
+                View current work
+                <FiArrowUpRight />
               </a>
               <a
-                href="/photodump"
-                className="inline-flex items-center justify-center gap-2 rounded-sm border border-[#2b2b2d] bg-[#171717] px-5 py-3 font-geist text-sm font-semibold text-[#f4f2f3] transition duration-300 hover:border-[#7b5869] hover:bg-[#221a1f]"
+                href="mailto:abhishekkumbhar2004@gmail.com"
+                className="inline-flex items-center gap-2 rounded-full border border-[#3a3a38] px-5 py-3 text-sm font-semibold text-[#f5f5f0] transition hover:border-[#6b6b65] hover:bg-[#242423]"
               >
-                Photo Dump
-                <FiArrowRight />
+                <FiMail />
+                Email me
               </a>
             </div>
-
           </div>
 
-          <div className="relative animate-reveal-delayed lg:justify-self-end">
-            <div className="absolute -left-5 top-7 hidden h-full w-full border border-[#7b5869]/50 lg:block" />
-            <div className="relative max-w-md border border-[#2b2b2d] bg-[#171717] p-3 shadow-[0_24px_70px_rgba(0,0,0,0.34)]">
+          <div className="animate-reveal-delayed lg:justify-self-end">
+            <div className="relative mx-auto max-w-sm overflow-hidden rounded-2xl bg-[#242423] p-2">
               <img
                 src={avatarImage}
                 alt="Abhishek Kumbhar"
-                className="aspect-[4/5] w-full rounded-sm object-cover"
+                className="aspect-[4/5] w-full rounded-xl object-cover grayscale-[20%]"
               />
             </div>
           </div>
         </section>
 
-        <section className="border-y border-[#2b2b2d] bg-[#121213]" aria-label="System state">
-          <div className="mx-auto grid max-w-7xl grid-cols-2 gap-px px-5 sm:grid-cols-4 sm:px-8 lg:px-10">
-            {['BUILDING', 'ACTIVE', 'DEPLOYED THINKING', 'PRODUCT-FIRST'].map((item) => (
-              <div key={item} className="bg-[#121213] py-4 font-geist text-[11px] uppercase tracking-[0.18em] text-[#8f888d]">
-                <span className="mr-2 text-[#d8b7c7]">/</span>{item}
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section id="stack" className="mx-auto max-w-7xl px-5 py-24 sm:px-8 lg:px-10">
-          <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
-            <div>
-              <SystemLabel>Stack</SystemLabel>
-              <h2 className="mt-4 max-w-3xl font-system text-4xl font-semibold leading-tight text-[#f4f2f3] sm:text-5xl">
-                Tools I use to build intelligent products.
+        <section id="about" className="border-y border-[#30302e]">
+          <div className="mx-auto grid max-w-6xl gap-8 px-5 py-20 sm:px-8 md:grid-cols-[0.4fr_1fr] lg:px-10">
+            <SectionLabel>About</SectionLabel>
+            <div className="max-w-3xl">
+              <h2 className="text-3xl font-semibold leading-tight tracking-[-0.025em] sm:text-4xl">
+                I care about clear code, thoughtful solutions, and products that feel easy to use.
               </h2>
+              <p className="mt-6 max-w-2xl text-base leading-7 text-[#a8a8a1]">
+                I enjoy working across a full product, from planning a feature to writing the code and shipping it. My main focus is AI, but I also work with frontend, backend, databases, and deployment.
+              </p>
             </div>
-            <p className="max-w-md font-system text-base leading-7 text-[#d4ced2]">
-              A practical stack for model-backed applications, product interfaces, and backend systems.
-            </p>
-          </div>
-
-          <div className="mt-10 grid gap-4 md:grid-cols-2">
-            {stackGroups.map((group) => (
-              <article key={group.label} className="overflow-hidden border border-[#2b2b2d] bg-[#171717] shadow-[0_18px_44px_rgba(0,0,0,0.2)] transition duration-300 hover:border-[#7b5869]/70">
-                <div className="h-1 bg-[#7b5869]" />
-                <div className="p-5 sm:p-6">
-                  <h3 className="font-system text-xl font-semibold text-[#f4f2f3]">
-                    {group.label}
-                  </h3>
-                  <div className="mt-5 flex flex-wrap gap-2">
-                    {group.tools.map((tool) => (
-                      <span key={tool} className="border border-[#2b2b2d] bg-[#121213] px-3 py-2 font-geist text-xs text-[#d4ced2] transition duration-300 hover:border-[#7b5869] hover:bg-[#221a1f]">
-                        {tool}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </article>
-            ))}
           </div>
         </section>
 
-        <section id="interaone" className="mx-auto max-w-7xl px-5 py-14 sm:px-8 lg:px-10">
-          <div className="overflow-hidden border border-[#2b2b2d] bg-[#171717] shadow-[0_24px_70px_rgba(0,0,0,0.34)]">
-            <div className="grid gap-px bg-[#2b2b2d] lg:grid-cols-[0.78fr_1.22fr]">
-              <div className="bg-[#7b5869] p-6 text-white sm:p-8">
-                <p className="font-geist text-[11px] uppercase tracking-[0.18em] text-white/75">
-                  Current Build
+        <section id="work" className="mx-auto max-w-6xl px-5 py-24 sm:px-8 lg:px-10">
+          <SectionLabel>Current work</SectionLabel>
+          <div className="mt-5 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+            <h2 className="text-4xl font-semibold tracking-[-0.035em] sm:text-5xl">InteraOne</h2>
+            <p className="font-geist text-xs uppercase tracking-[0.14em] text-[#85857f]">2025 — Present</p>
+          </div>
+
+          <div className="mt-10 grid overflow-hidden rounded-2xl border border-[#343431] bg-[#20201f] lg:grid-cols-[0.9fr_1.1fr]">
+            <div className="flex flex-col justify-between border-b border-[#343431] p-7 sm:p-9 lg:border-b-0 lg:border-r">
+              <div>
+                <p className="text-sm font-medium text-[#a3e635]">AI customer support</p>
+                <h3 className="mt-4 text-3xl font-semibold leading-tight tracking-[-0.025em]">
+                  Founding Developer building InteraOne from the ground up.
+                </h3>
+                <p className="mt-5 leading-7 text-[#a8a8a1]">
+                  I help build InteraOne, a customer support product. My work covers AI features, product screens, APIs, and the systems behind them.
                 </p>
-                <h2 className="mt-4 max-w-lg font-system text-4xl font-semibold leading-tight sm:text-5xl">
-                  Founding Developer at InteraOne.
-                </h2>
-                <p className="mt-5 max-w-xl font-system text-base leading-7 text-white/78">
-                  I shape InteraOne from the product core outward: AI support flows, application architecture, platform improvements, and the details that turn a rough idea into a usable product.
-                </p>
-                <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-                  <a
-                    href="https://www.interaone.app/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 rounded-sm bg-[#f4f2f3] px-5 py-3 font-geist text-sm font-semibold text-[#7b5869] transition hover:bg-[#eadce3]"
-                  >
-                    Visit InteraOne
-                    <FiExternalLink />
-                  </a>
-                  <a
-                    href="https://github.com/InteraOne/InteraOne"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 rounded-sm border border-white/25 px-5 py-3 font-geist text-sm font-semibold text-white transition hover:border-white/50 hover:bg-white/10"
-                  >
-                    Contribute
-                    <FiGithub />
-                  </a>
-                </div>
               </div>
 
-              <div className="bg-[#171717] p-6 sm:p-8">
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                  <div>
-                    <p className="font-geist text-[11px] uppercase tracking-[0.18em] text-[#d8b7c7]">
-                      InteraOne
-                    </p>
-                    <h3 className="mt-3 font-system text-2xl font-semibold text-[#f4f2f3]">
-                      AI-powered customer support automation platform.
-                    </h3>
-                  </div>
-                  <span className="shrink-0 border border-[#7b5869]/60 bg-[#221a1f] px-3 py-2 font-geist text-[11px] uppercase tracking-[0.16em] text-[#d8b7c7]">
-                    July 2025 - Present
-                  </span>
-                </div>
-
-                <div className="mt-8 grid gap-3 sm:grid-cols-3">
-                  {[
-                    'Own practical AI feature direction',
-                    'Design product-ready support flows',
-                    'Improve platform architecture and reliability',
-                  ].map((item) => (
-                    <div key={item} className="border border-[#2b2b2d] bg-[#121213] p-4">
-                      <p className="font-system text-sm leading-6 text-[#d4ced2]">{item}</p>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="mt-6 flex flex-wrap gap-2">
-                  {founderTags.map((tag) => (
-                    <span key={tag} className="border border-[#2b2b2d] bg-[#171717] px-3 py-2 font-geist text-[11px] uppercase tracking-[0.12em] text-[#b9b3b7]">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <a
+                  href="https://www.interaone.app/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-sm font-semibold text-[#f5f5f0] transition hover:text-[#a3e635]"
+                >
+                  Visit website <FiArrowUpRight />
+                </a>
+                <a
+                  href="https://github.com/InteraOne/InteraOne"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-sm font-semibold text-[#a8a8a1] transition hover:text-[#f5f5f0]"
+                >
+                  <FiGithub /> GitHub
+                </a>
               </div>
             </div>
+
+            <div className="p-7 sm:p-9">
+              <p className="mb-6 text-sm text-[#85857f]">My role</p>
+              <div className="divide-y divide-[#343431]">
+                {workItems.map((item, index) => (
+                  <div key={item} className="grid grid-cols-[2rem_1fr] gap-4 py-5 first:pt-0 last:pb-0">
+                    <span className="font-geist text-xs text-[#666660]">0{index + 1}</span>
+                    <p className="text-base leading-7 text-[#d4d4cd]">{item}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="open-source" className="border-t border-[#30302e]">
+          <div className="mx-auto max-w-6xl px-5 py-24 sm:px-8 lg:px-10">
+            <SectionLabel>Open source</SectionLabel>
+            <h2 className="mt-5 max-w-2xl text-4xl font-semibold tracking-[-0.035em] sm:text-5xl">
+              Open-source contributions
+            </h2>
+            <p className="mt-5 max-w-2xl leading-7 text-[#a8a8a1]">
+              Fixes I have contributed to large projects and worked through with their maintainers.
+            </p>
+
+            <div className="mt-12 grid gap-5 md:grid-cols-2">
+              {contributions.map((contribution) => (
+                <article
+                  key={contribution.name}
+                  className="flex min-h-72 flex-col rounded-2xl border border-[#343431] bg-[#20201f] p-7 sm:p-8"
+                >
+                  <div className="flex items-start justify-between gap-5">
+                    <div>
+                      <p className="mb-3 text-sm text-[#a3e635]">Merged contribution</p>
+                      <h3 className="text-2xl font-semibold tracking-[-0.025em]">
+                        {contribution.name}
+                      </h3>
+                    </div>
+                    <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-[#41413d] px-3 py-1.5 font-geist text-xs text-[#bdbdb5]">
+                      <FiStar />
+                      {contribution.stars}
+                    </span>
+                  </div>
+
+                  <p className="mt-6 flex-1 leading-7 text-[#a8a8a1]">
+                    {contribution.description}
+                  </p>
+
+                  <a
+                    href={contribution.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-8 inline-flex w-fit items-center gap-2 text-sm font-semibold text-[#f5f5f0] transition hover:text-[#a3e635]"
+                  >
+                    View contribution
+                    <FiArrowUpRight />
+                  </a>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="skills" className="border-y border-[#30302e] bg-[#1d1d1c]">
+          <div className="mx-auto max-w-6xl px-5 py-24 sm:px-8 lg:px-10">
+            <SectionLabel>Skills</SectionLabel>
+            <h2 className="mt-5 max-w-2xl text-4xl font-semibold tracking-[-0.035em] sm:text-5xl">
+              Tools I use to get the work done.
+            </h2>
+
+            <div className="mt-12 grid gap-px overflow-hidden rounded-2xl border border-[#343431] bg-[#343431] md:grid-cols-3">
+              {skills.map((group) => (
+                <article key={group.title} className="bg-[#20201f] p-7 sm:p-8">
+                  <h3 className="text-lg font-semibold">{group.title}</h3>
+                  <ul className="mt-6 space-y-3 text-sm text-[#a8a8a1]">
+                    {group.tools.map((tool) => (
+                      <li key={tool}>{tool}</li>
+                    ))}
+                  </ul>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="contact" className="mx-auto max-w-6xl px-5 py-24 sm:px-8 lg:px-10">
+          <div className="max-w-3xl">
+            <SectionLabel>Contact</SectionLabel>
+            <h2 className="mt-5 text-4xl font-semibold leading-tight tracking-[-0.035em] sm:text-6xl">
+              Have a project in mind? Let&apos;s talk.
+            </h2>
+            <a
+              href="mailto:abhishekkumbhar2004@gmail.com"
+              className="mt-9 inline-flex items-center gap-2 border-b border-[#6b6b65] pb-1 text-lg text-[#d4d4cd] transition hover:border-[#a3e635] hover:text-[#a3e635]"
+            >
+              abhishekkumbhar2004@gmail.com
+              <FiArrowUpRight />
+            </a>
           </div>
         </section>
       </main>
-
-      <Footer />
     </div>
   );
 }
