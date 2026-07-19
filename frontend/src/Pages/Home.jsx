@@ -5,15 +5,15 @@ import avatarImage from '../assets/images/me.jpeg';
 const skills = [
   {
     title: 'AI',
-    tools: ['Python', 'PyTorch', 'TensorFlow', 'Hugging Face', 'LangChain', 'LangGraph'],
+    tools: ['Python', 'PyTorch', 'TensorFlow', 'Hugging Face', 'LangChain', 'LangGraph', 'Qdrant'],
   },
   {
     title: 'Web',
-    tools: ['React', 'TypeScript', 'JavaScript', 'Node.js', 'FastAPI', 'Tailwind CSS'],
+    tools: ['Tailwind CSS', 'React', 'JavaScript', 'TypeScript', 'Node.js', 'express.js', 'FastAPI'],
   },
   {
     title: 'Data & tools',
-    tools: ['PostgreSQL', 'MongoDB', 'Redis', 'Docker', 'Git', 'Postman'],
+    tools: ['PostgreSQL', 'MongoDB', 'Redis', 'GraphDB', 'Docker', 'Git', 'Postman'],
   },
 ];
 
@@ -29,14 +29,19 @@ const contributions = [
     stars: '+73.9k',
     description:
       'Contributed a merged fix to Apache Superset, working through the issue, existing system behaviour, test cases, and reviewer feedback.',
-    link: 'https://github.com/apache/superset/pull/41975',
+    links: [
+      { label: 'PR #41975', url: 'https://github.com/apache/superset/pull/41975' },
+    ],
   },
   {
     name: 'Odysseus AI',
     stars: '+83.2k',
     description:
-      'Contributed to a large open-source AI project by investigating an existing problem and implementing a maintainable solution.',
-    link: 'https://github.com/odysseus-dev/odysseus/pull/3840',
+      'Contributed multiple merged fixes to a large open-source AI project by investigating existing problems and implementing maintainable solutions.',
+    links: [
+      { label: 'PR #3840', url: 'https://github.com/odysseus-dev/odysseus/pull/3840' },
+      { label: 'PR #5491', url: 'https://github.com/odysseus-dev/odysseus/pull/5491' },
+    ],
   },
 ];
 
@@ -172,7 +177,7 @@ function Home() {
           <div className="mx-auto max-w-6xl px-5 py-24 sm:px-8 lg:px-10">
             <SectionLabel>Open source</SectionLabel>
             <h2 className="mt-5 max-w-2xl text-4xl font-semibold tracking-[-0.035em] sm:text-5xl">
-              Open-source contributions
+              Notable open-source contributions
             </h2>
             <p className="mt-5 max-w-2xl leading-7 text-[#a8a8a1]">
               Fixes I have contributed to large projects and worked through with their maintainers.
@@ -186,7 +191,9 @@ function Home() {
                 >
                   <div className="flex items-start justify-between gap-5">
                     <div>
-                      <p className="mb-3 text-sm text-[#a3e635]">Merged contribution</p>
+                      <p className="mb-3 text-sm text-[#a3e635]">
+                        {contribution.links.length > 1 ? 'Merged contributions' : 'Merged contribution'}
+                      </p>
                       <h3 className="text-2xl font-semibold tracking-[-0.025em]">
                         {contribution.name}
                       </h3>
@@ -201,15 +208,20 @@ function Home() {
                     {contribution.description}
                   </p>
 
-                  <a
-                    href={contribution.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-8 inline-flex w-fit items-center gap-2 text-sm font-semibold text-[#f5f5f0] transition hover:text-[#a3e635]"
-                  >
-                    View contribution
-                    <FiArrowUpRight />
-                  </a>
+                  <div className="mt-8 flex flex-wrap gap-x-5 gap-y-3">
+                    {contribution.links.map((link) => (
+                      <a
+                        key={link.url}
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex w-fit items-center gap-2 text-sm font-semibold text-[#f5f5f0] transition hover:text-[#a3e635]"
+                      >
+                        View {link.label}
+                        <FiArrowUpRight />
+                      </a>
+                    ))}
+                  </div>
                 </article>
               ))}
             </div>
