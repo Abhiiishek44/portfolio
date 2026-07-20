@@ -5,11 +5,11 @@ import avatarImage from '../assets/images/me.jpeg';
 const skills = [
   {
     title: 'AI',
-    tools: ['Python', 'PyTorch', 'TensorFlow', 'Hugging Face', 'LangChain', 'LangGraph', 'Qdrant'],
+    tools: ['Python', 'PyTorch', 'TensorFlow', 'Hugging Face', 'LangChain', 'LangGraph', 'QdrantDB'],
   },
   {
     title: 'Web',
-    tools: ['Tailwind CSS', 'React', 'JavaScript', 'TypeScript', 'Node.js', 'express.js', 'FastAPI'],
+    tools: ['Tailwind CSS', 'React', 'JavaScript', 'TypeScript', 'Node.js', 'Express.js', 'FastAPI'],
   },
   {
     title: 'Data & tools',
@@ -18,9 +18,9 @@ const skills = [
 ];
 
 const workItems = [
-  'Build features from early ideas through to release.',
-  'Contribute across AI, frontend, and backend.',
-  'Build stable systems that can grow with the product.',
+  'Ship customer-facing capabilities from early product decisions through production.',
+  'Connect AI behavior, APIs, data, and interfaces into dependable workflows.',
+  'Build the backend and infrastructure foundations needed for the product to scale.',
 ];
 
 const contributions = [
@@ -30,7 +30,7 @@ const contributions = [
     stars: '+73.9k',
     title: 'Fixed BigQuery project resolution',
     description:
-      'BigQuery metadata requests could resolve datasets against the credentials project instead of the project configured in the connection URI.',
+      'Updated BigQuery clients to honor the project in the connection URI, preventing metadata operations from resolving datasets against the wrong project.',
     url: 'https://github.com/apache/superset/pull/41975',
   },
   {
@@ -39,7 +39,7 @@ const contributions = [
     stars: '+83.2k',
     title: 'Made LLM fallbacks recover from empty streams',
     description:
-      'Empty or metadata-only model responses were treated as successful, preventing the system from moving to the next fallback model.',
+      'Changed fallback handling so empty or metadata-only model streams advance to the next candidate instead of ending without a useful response.',
     url: 'https://github.com/odysseus-dev/odysseus/pull/5491',
   },
   {
@@ -48,7 +48,7 @@ const contributions = [
     stars: '+83.2k',
     title: 'Prevented blank API integrations',
     description:
-      'The integrations form allowed empty names and base URLs, creating persistent “Unnamed” entries that could also be produced through the API.',
+      'Added client- and server-side validation that blocks blank API integrations and protects stored integration data during updates.',
     url: 'https://github.com/odysseus-dev/odysseus/pull/3840',
   },
 ];
@@ -78,11 +78,11 @@ function Home() {
             </div>
 
             <h1 className="max-w-4xl text-5xl font-semibold leading-[1.05] tracking-[-0.045em] sm:text-6xl lg:text-7xl">
-              Building reliable AI systems with practical engineering.
+              Building AI products that hold up in the real world.
             </h1>
 
             <p className="mt-7 max-w-2xl text-lg leading-8 text-[#b5b5ad] sm:text-xl">
-              I&apos;m Abhishek, an AI engineer who builds products end to end—from AI features and backend systems to the final user experience.
+              I&apos;m Abhishek, an AI engineer building InteraOne across AI, backend, product, and infrastructure. I also contribute production fixes to Apache Superset and Odysseus AI.
             </p>
 
             <div className="mt-9 flex flex-wrap gap-3">
@@ -119,10 +119,10 @@ function Home() {
             <SectionLabel>About</SectionLabel>
             <div className="max-w-3xl">
               <h2 className="text-3xl font-semibold leading-tight tracking-[-0.025em] sm:text-4xl">
-                I care about clear code, thoughtful solutions, and products that feel easy to use.
+                I turn difficult engineering problems into reliable product outcomes.
               </h2>
               <p className="mt-6 max-w-2xl text-base leading-7 text-[#a8a8a1]">
-                I enjoy working across a full product, from planning a feature to writing the code and shipping it. My main focus is AI, but I also work with frontend, backend, databases, and deployment.
+                My approach is to find the root cause, make focused changes, and carry them through testing, review, and release. It shapes both my work on InteraOne and my merged open-source contributions.
               </p>
             </div>
           </div>
@@ -138,12 +138,12 @@ function Home() {
           <div className="mt-10 grid overflow-hidden rounded-2xl border border-[#343431] bg-[#20201f] lg:grid-cols-[0.9fr_1.1fr]">
             <div className="flex flex-col justify-between border-b border-[#343431] p-7 sm:p-9 lg:border-b-0 lg:border-r">
               <div>
-                <p className="text-sm font-medium text-[#a3e635]">AI customer support</p>
+                <p className="text-sm font-medium text-[#a3e635]">AI customer support platform</p>
                 <h3 className="mt-4 text-3xl font-semibold leading-tight tracking-[-0.025em]">
-                  Founding Developer building InteraOne from the ground up.
+                  Building InteraOne across AI, backend, product, and infrastructure.
                 </h3>
                 <p className="mt-5 leading-7 text-[#a8a8a1]">
-                  I help build InteraOne, a customer support product. My work covers AI features, product screens, APIs, and the systems behind them.
+                  As a founding developer, I turn early product needs into shipped capabilities—from AI behavior and APIs to customer-facing workflows and the infrastructure behind them.
                 </p>
               </div>
 
@@ -168,7 +168,7 @@ function Home() {
             </div>
 
             <div className="p-7 sm:p-9">
-              <p className="mb-6 text-sm text-[#85857f]">My role</p>
+              <p className="mb-6 text-sm text-[#85857f]">Current impact</p>
               <div className="divide-y divide-[#343431]">
                 {workItems.map((item, index) => (
                   <div key={item} className="grid grid-cols-[2rem_1fr] gap-4 py-5 first:pt-0 last:pb-0">
@@ -187,10 +187,10 @@ function Home() {
               <div>
                 <SectionLabel>Open source</SectionLabel>
                 <h2 className="mt-5 max-w-2xl text-4xl font-semibold tracking-[-0.035em] sm:text-5xl">
-                  Contributions that shipped.
+                  Merged work in production codebases.
                 </h2>
                 <p className="mt-5 max-w-2xl leading-7 text-[#a8a8a1]">
-                  Production fixes contributed to established projects, from diagnosis and implementation to tests and maintainer review.
+                  A merged BigQuery reliability fix in Apache Superset and multiple merged fixes in Odysseus AI, covering LLM fallbacks and integration validation.
                 </p>
               </div>
             </div>
@@ -248,7 +248,7 @@ function Home() {
           <div className="mx-auto max-w-6xl px-5 py-24 sm:px-8 lg:px-10">
             <SectionLabel>Skills</SectionLabel>
             <h2 className="mt-5 max-w-2xl text-4xl font-semibold tracking-[-0.035em] sm:text-5xl">
-              Tools I use to get the work done.
+              Technologies behind the systems I ship.
             </h2>
 
             <div className="mt-12 grid gap-px overflow-hidden rounded-2xl border border-[#343431] bg-[#343431] md:grid-cols-3">
