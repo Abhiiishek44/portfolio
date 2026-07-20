@@ -24,6 +24,49 @@
   }
 }
 
+.touch-cursor {
+  display: none;
+}
+
+@media (pointer: coarse) {
+  .touch-cursor {
+    position: fixed;
+    z-index: 9999;
+    display: block;
+    width: 42px;
+    height: 42px;
+    pointer-events: none;
+    border: 2px solid #a3e635;
+    border-radius: 9999px;
+    background: rgb(26 26 26 / 55%);
+    box-shadow: 0 0 0 1px rgb(245 245 240 / 30%);
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.72);
+    transition: opacity 120ms ease, transform 160ms ease;
+    will-change: left, top, opacity, transform;
+  }
+
+  .touch-cursor::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 6px;
+    height: 6px;
+    content: '';
+    background: #a3e635;
+    border-radius: 9999px;
+    transform: translate(-50%, -50%);
+  }
+
+  .touch-cursor.is-visible {
+    opacity: 1;
+  }
+
+  .touch-cursor.is-pressed {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
 @layer utilities {
   .tracking-0 {
     letter-spacing: 0;

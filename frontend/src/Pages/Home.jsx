@@ -1,4 +1,4 @@
-import { FiArrowUpRight, FiGithub, FiMail, FiStar } from 'react-icons/fi';
+import { FiArrowUpRight, FiCheck, FiGithub, FiGitPullRequest, FiMail, FiStar } from 'react-icons/fi';
 import Navbar from '../components/Navbar';
 import avatarImage from '../assets/images/me.jpeg';
 
@@ -25,23 +25,31 @@ const workItems = [
 
 const contributions = [
   {
-    name: 'Apache Superset',
+    project: 'Apache Superset',
+    reference: 'apache/superset#41975',
     stars: '+73.9k',
+    title: 'Fixed BigQuery project resolution',
     description:
-      'Contributed a merged fix to Apache Superset, working through the issue, existing system behaviour, test cases, and reviewer feedback.',
-    links: [
-      { label: 'PR #41975', url: 'https://github.com/apache/superset/pull/41975' },
-    ],
+      'BigQuery metadata requests could resolve datasets against the credentials project instead of the project configured in the connection URI.',
+    url: 'https://github.com/apache/superset/pull/41975',
   },
   {
-    name: 'Odysseus AI',
+    project: 'Odysseus AI',
+    reference: 'odysseus-dev/odysseus#5491',
     stars: '+83.2k',
+    title: 'Made LLM fallbacks recover from empty streams',
     description:
-      'Contributed multiple merged fixes to a large open-source AI project by investigating existing problems and implementing maintainable solutions.',
-    links: [
-      { label: 'PR #3840', url: 'https://github.com/odysseus-dev/odysseus/pull/3840' },
-      { label: 'PR #5491', url: 'https://github.com/odysseus-dev/odysseus/pull/5491' },
-    ],
+      'Empty or metadata-only model responses were treated as successful, preventing the system from moving to the next fallback model.',
+    url: 'https://github.com/odysseus-dev/odysseus/pull/5491',
+  },
+  {
+    project: 'Odysseus AI',
+    reference: 'odysseus-dev/odysseus#3840',
+    stars: '+83.2k',
+    title: 'Prevented blank API integrations',
+    description:
+      'The integrations form allowed empty names and base URLs, creating persistent “Unnamed” entries that could also be produced through the API.',
+    url: 'https://github.com/odysseus-dev/odysseus/pull/3840',
   },
 ];
 
@@ -175,52 +183,60 @@ function Home() {
 
         <section id="open-source" className="border-t border-[#30302e]">
           <div className="mx-auto max-w-6xl px-5 py-24 sm:px-8 lg:px-10">
-            <SectionLabel>Open source</SectionLabel>
-            <h2 className="mt-5 max-w-2xl text-4xl font-semibold tracking-[-0.035em] sm:text-5xl">
-              Notable open-source contributions
-            </h2>
-            <p className="mt-5 max-w-2xl leading-7 text-[#a8a8a1]">
-              Fixes I have contributed to large projects and worked through with their maintainers.
-            </p>
+            <div>
+              <div>
+                <SectionLabel>Open source</SectionLabel>
+                <h2 className="mt-5 max-w-2xl text-4xl font-semibold tracking-[-0.035em] sm:text-5xl">
+                  Contributions that shipped.
+                </h2>
+                <p className="mt-5 max-w-2xl leading-7 text-[#a8a8a1]">
+                  Production fixes contributed to established projects, from diagnosis and implementation to tests and maintainer review.
+                </p>
+              </div>
+            </div>
 
-            <div className="mt-12 grid gap-5 md:grid-cols-2">
-              {contributions.map((contribution) => (
+            <div className="mt-14 overflow-hidden rounded-2xl border border-[#343431] bg-[#20201f]">
+              {contributions.map((contribution, index) => (
                 <article
-                  key={contribution.name}
-                  className="flex min-h-72 flex-col rounded-2xl border border-[#343431] bg-[#20201f] p-7 sm:p-8"
+                  key={contribution.reference}
+                  className="grid gap-6 border-b border-[#343431] p-6 last:border-b-0 sm:p-7 lg:grid-cols-[0.3fr_1fr] lg:gap-10"
                 >
-                  <div className="flex items-start justify-between gap-5">
-                    <div>
-                      <p className="mb-3 text-sm text-[#a3e635]">
-                        {contribution.links.length > 1 ? 'Merged contributions' : 'Merged contribution'}
-                      </p>
-                      <h3 className="text-2xl font-semibold tracking-[-0.025em]">
-                        {contribution.name}
-                      </h3>
+                  <div>
+                    <div className="flex items-center gap-3">
+                      <span className="font-geist text-xs text-[#666660]">0{index + 1}</span>
+                      <span className="inline-flex items-center gap-1.5 rounded-full border border-[#435229] bg-[#a3e635]/[0.06] px-2.5 py-1 font-geist text-[11px] uppercase tracking-[0.1em] text-[#a3e635]">
+                        <FiCheck /> Merged
+                      </span>
                     </div>
-                    <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-[#41413d] px-3 py-1.5 font-geist text-xs text-[#bdbdb5]">
-                      <FiStar />
-                      {contribution.stars}
+                    <h3 className="mt-5 text-xl font-semibold tracking-[-0.02em]">
+                      {contribution.project}
+                    </h3>
+                    <span className="mt-3 inline-flex items-center gap-1.5 font-geist text-xs text-[#85857f]">
+                      <FiStar /> {contribution.stars} GitHub stars
                     </span>
                   </div>
 
-                  <p className="mt-6 flex-1 leading-7 text-[#a8a8a1]">
-                    {contribution.description}
-                  </p>
+                  <div>
+                    <div className="flex items-start gap-3 text-sm text-[#a3e635]">
+                      <FiGitPullRequest className="mt-0.5 shrink-0" />
+                      <span className="font-geist">{contribution.reference}</span>
+                    </div>
+                    <h4 className="mt-3 text-xl font-semibold leading-tight tracking-[-0.025em] sm:text-2xl">
+                      {contribution.title}
+                    </h4>
+                    <p className="mt-3 max-w-3xl text-sm leading-6 text-[#a8a8a1] sm:text-base">
+                      {contribution.description}
+                    </p>
 
-                  <div className="mt-8 flex flex-wrap gap-x-5 gap-y-3">
-                    {contribution.links.map((link) => (
-                      <a
-                        key={link.url}
-                        href={link.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex w-fit items-center gap-2 text-sm font-semibold text-[#f5f5f0] transition hover:text-[#a3e635]"
-                      >
-                        View {link.label}
-                        <FiArrowUpRight />
-                      </a>
-                    ))}
+                    <a
+                      href={contribution.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-4 inline-flex w-fit items-center gap-2 text-sm font-semibold text-[#f5f5f0] transition hover:text-[#a3e635]"
+                    >
+                      View merged pull request
+                      <FiArrowUpRight />
+                    </a>
                   </div>
                 </article>
               ))}
@@ -253,8 +269,8 @@ function Home() {
         <section id="contact" className="mx-auto max-w-6xl px-5 py-24 sm:px-8 lg:px-10">
           <div className="max-w-3xl">
             <SectionLabel>Contact</SectionLabel>
-            <h2 className="mt-5 text-4xl font-semibold leading-tight tracking-[-0.035em] sm:text-6xl">
-              Have a project in mind? Let&apos;s talk.
+            <h2 className="mt-5 text-3xl font-semibold leading-tight tracking-[-0.03em] sm:text-5xl">
+              Let&apos;s connect.
             </h2>
             <a
               href="mailto:abhishekkumbhar2004@gmail.com"
