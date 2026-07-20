@@ -80,6 +80,33 @@
     animation: reveal 700ms ease-out 100ms both;
   }
 
+  .contact-mascot {
+    animation: contact-mascot-idle 3.4s ease-in-out infinite;
+  }
+
+  .contact-mascot-image {
+    transition: filter 200ms ease, transform 200ms ease;
+  }
+
+  .contact-mascot:hover .contact-mascot-image {
+    filter: brightness(1.08);
+    transform: scale(1.04) rotate(1deg);
+  }
+
+  .contact-mascot-reaction {
+    animation: contact-mascot-reaction 650ms cubic-bezier(.2, .8, .25, 1);
+  }
+
+  .contact-mascot-heart {
+    position: absolute;
+    top: .2rem;
+    right: .7rem;
+    color: #d8b7c7;
+    font-size: 1rem;
+    pointer-events: none;
+    animation: contact-mascot-heart 800ms ease-out forwards;
+  }
+
   @keyframes reveal {
     from {
       opacity: 0;
@@ -89,5 +116,48 @@
       opacity: 1;
       transform: translateY(0);
     }
+  }
+
+  @keyframes contact-mascot-idle {
+    0%, 100% {
+      transform: translateY(0) rotate(-.5deg);
+    }
+    50% {
+      transform: translateY(-4px) rotate(.5deg);
+    }
+  }
+
+  @keyframes contact-mascot-reaction {
+    0%, 100% {
+      transform: scale(1) rotate(0);
+    }
+    40% {
+      transform: scale(.94) rotate(-3deg);
+    }
+    70% {
+      transform: scale(1.08) rotate(3deg);
+    }
+  }
+
+  @keyframes contact-mascot-heart {
+    0% {
+      opacity: 0;
+      transform: translateY(8px) scale(.4) rotate(-8deg);
+    }
+    30% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-18px) scale(1.25) rotate(8deg);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-mascot,
+  .contact-mascot-reaction,
+  .contact-mascot-heart {
+    animation: none;
   }
 }

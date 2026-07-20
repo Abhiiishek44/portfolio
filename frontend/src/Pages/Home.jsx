@@ -1,11 +1,13 @@
+import { useState } from 'react';
 import { FiArrowUpRight, FiCheck, FiGithub, FiGitPullRequest, FiMail, FiStar } from 'react-icons/fi';
 import Navbar from '../components/Navbar';
 import avatarImage from '../assets/images/me.jpeg';
+import contactMascot from '../assets/illustrations/contact-mascot.webp';
 
 const skills = [
   {
     title: 'AI',
-    tools: ['Python', 'PyTorch', 'TensorFlow', 'Hugging Face', 'LangChain', 'LangGraph', 'QdrantDB'],
+    tools: ['Python', 'Scikit-learn', 'PyTorch', 'TensorFlow', 'Hugging Face', 'LangChain', 'LangGraph', 'RAG', 'QdrantDB'],
   },
   {
     title: 'Web',
@@ -13,7 +15,7 @@ const skills = [
   },
   {
     title: 'Data & tools',
-    tools: ['PostgreSQL', 'MongoDB', 'Redis', 'GraphDB', 'Docker', 'Git', 'Postman'],
+    tools: ['PostgreSQL', 'MongoDB', 'Redis', 'GraphDB', 'Docker', 'Git', 'GitHub', 'Postman'],
   },
 ];
 
@@ -62,6 +64,8 @@ function SectionLabel({ children }) {
 }
 
 function Home() {
+  const [mascotReaction, setMascotReaction] = useState(0);
+
   return (
     <div className="min-h-screen bg-[#1A1A1A] text-[#f5f5f0]">
       <Navbar />
@@ -189,9 +193,6 @@ function Home() {
                 <h2 className="mt-5 max-w-2xl text-4xl font-semibold tracking-[-0.035em] sm:text-5xl">
                   Merged work in production codebases.
                 </h2>
-                <p className="mt-5 max-w-2xl leading-7 text-[#a8a8a1]">
-                  A merged BigQuery reliability fix in Apache Superset and multiple merged fixes in Odysseus AI, covering LLM fallbacks and integration validation.
-                </p>
               </div>
             </div>
 
@@ -266,7 +267,7 @@ function Home() {
           </div>
         </section>
 
-        <section id="contact" className="mx-auto max-w-6xl px-5 py-24 sm:px-8 lg:px-10">
+        <section id="contact" className="mx-auto grid max-w-6xl gap-10 px-5 py-24 sm:px-8 md:grid-cols-[1fr_auto] md:items-end lg:px-10">
           <div className="max-w-3xl">
             <SectionLabel>Contact</SectionLabel>
             <h2 className="mt-5 text-3xl font-semibold leading-tight tracking-[-0.03em] sm:text-5xl">
@@ -280,6 +281,24 @@ function Home() {
               <FiArrowUpRight />
             </a>
           </div>
+
+          <button
+            type="button"
+            onClick={() => setMascotReaction((count) => count + 1)}
+            className="contact-mascot relative mx-auto h-40 w-40 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#a3e635] focus-visible:ring-offset-4 focus-visible:ring-offset-[#1A1A1A] md:mx-0"
+            aria-label="Wave to the anime boy"
+            title="Say hi"
+          >
+            <img
+              key={`contact-mascot-${mascotReaction}`}
+              src={contactMascot}
+              alt=""
+              className={`contact-mascot-image h-full w-full object-cover ${mascotReaction ? 'contact-mascot-reaction' : ''}`}
+            />
+            {mascotReaction > 0 && (
+              <span key={`heart-${mascotReaction}`} aria-hidden="true" className="contact-mascot-heart">♥</span>
+            )}
+          </button>
         </section>
       </main>
     </div>
