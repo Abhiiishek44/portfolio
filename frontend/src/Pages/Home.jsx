@@ -1,5 +1,14 @@
 import { useState } from 'react';
-import { FiArrowUpRight, FiCheck, FiGithub, FiGitPullRequest, FiMail, FiStar } from 'react-icons/fi';
+import {
+  FiArrowLeft,
+  FiArrowRight,
+  FiArrowUpRight,
+  FiCheck,
+  FiGithub,
+  FiGitPullRequest,
+  FiMail,
+  FiStar,
+} from 'react-icons/fi';
 import Navbar from '../components/Navbar';
 import avatarImage from '../assets/images/me.jpeg';
 import contactMascot from '../assets/illustrations/contact-mascot.webp';
@@ -27,6 +36,15 @@ const workItems = [
 
 const contributions = [
   {
+    project: 'LangChain OpenWiki',
+    reference: 'langchain-ai/openwiki#477',
+    stars: '+13.2k',
+    title: 'Added multilingual wiki output',
+    description:
+      'Added first-class multilingual output with language-aware CLI options, persisted language settings, translation recovery, and localized reader-facing wiki content.',
+    url: 'https://github.com/langchain-ai/openwiki/pull/477',
+  },
+  {
     project: 'Apache Superset',
     reference: 'apache/superset#41975',
     stars: '+73.9k',
@@ -37,21 +55,23 @@ const contributions = [
   },
   {
     project: 'Odysseus AI',
-    reference: 'odysseus-dev/odysseus#5491',
     stars: '+83.2k',
-    title: 'Made LLM fallbacks recover from empty streams',
-    description:
-      'Changed fallback handling so empty or metadata-only model streams advance to the next candidate instead of ending without a useful response.',
-    url: 'https://github.com/odysseus-dev/odysseus/pull/5491',
-  },
-  {
-    project: 'Odysseus AI',
-    reference: 'odysseus-dev/odysseus#3840',
-    stars: '+83.2k',
-    title: 'Prevented blank API integrations',
-    description:
-      'Added client- and server-side validation that blocks blank API integrations and protects stored integration data during updates.',
-    url: 'https://github.com/odysseus-dev/odysseus/pull/3840',
+    pullRequests: [
+      {
+        reference: 'odysseus-dev/odysseus#5491',
+        title: 'Made LLM fallbacks recover from empty streams',
+        description:
+          'Changed fallback handling so empty or metadata-only model streams advance to the next candidate instead of ending without a useful response.',
+        url: 'https://github.com/odysseus-dev/odysseus/pull/5491',
+      },
+      {
+        reference: 'odysseus-dev/odysseus#3840',
+        title: 'Prevented blank API integrations',
+        description:
+          'Added client- and server-side validation that blocks blank API integrations and protects stored integration data during updates.',
+        url: 'https://github.com/odysseus-dev/odysseus/pull/3840',
+      },
+    ],
   },
 ];
 
@@ -65,6 +85,7 @@ function SectionLabel({ children }) {
 
 function Home() {
   const [mascotReaction, setMascotReaction] = useState(0);
+  const [odysseusPage, setOdysseusPage] = useState(0);
 
   return (
     <div className="min-h-screen bg-[#1A1A1A] text-[#f5f5f0]">
@@ -198,8 +219,14 @@ function Home() {
 
             <div className="mt-14 overflow-hidden rounded-2xl border border-[#343431] bg-[#20201f]">
               {contributions.map((contribution, index) => (
+                (() => {
+                  const pullRequests = contribution.pullRequests ?? [contribution];
+                  const activePage = contribution.project === 'Odysseus AI' ? odysseusPage : 0;
+                  const pullRequest = pullRequests[activePage];
+
+                  return (
                 <article
-                  key={contribution.reference}
+                  key={contribution.project}
                   className="grid gap-6 border-b border-[#343431] p-6 last:border-b-0 sm:p-7 lg:grid-cols-[0.3fr_1fr] lg:gap-10"
                 >
                   <div>
@@ -220,26 +247,54 @@ function Home() {
                   <div>
                     <div className="flex items-start gap-3 text-sm text-[#a3e635]">
                       <FiGitPullRequest className="mt-0.5 shrink-0" />
-                      <span className="font-geist">{contribution.reference}</span>
+                      <span className="font-geist">{pullRequest.reference}</span>
                     </div>
                     <h4 className="mt-3 text-xl font-semibold leading-tight tracking-[-0.025em] sm:text-2xl">
-                      {contribution.title}
+                      {pullRequest.title}
                     </h4>
                     <p className="mt-3 max-w-3xl text-sm leading-6 text-[#a8a8a1] sm:text-base">
-                      {contribution.description}
+                      {pullRequest.description}
                     </p>
 
-                    <a
-                      href={contribution.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mt-4 inline-flex w-fit items-center gap-2 text-sm font-semibold text-[#f5f5f0] transition hover:text-[#a3e635]"
-                    >
-                      View merged pull request
-                      <FiArrowUpRight />
-                    </a>
+                    <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
+                      <a
+                        href={pullRequest.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex w-fit items-center gap-2 text-sm font-semibold text-[#f5f5f0] transition hover:text-[#a3e635]"
+                      >
+                        View merged pull request
+                        <FiArrowUpRight />
+                      </a>
+
+                      {pullRequests.length > 1 && (
+                        <div className="flex items-center gap-3" aria-label="Odysseus AI pull request pagination">
+                          <button
+                            type="button"
+                            onClick={() => setOdysseusPage((page) => (page - 1 + pullRequests.length) % pullRequests.length)}
+                            className="rounded-full border border-[#43433f] p-2 text-[#a8a8a1] transition hover:border-[#a3e635] hover:text-[#a3e635]"
+                            aria-label="View previous Odysseus AI pull request"
+                          >
+                            <FiArrowLeft />
+                          </button>
+                          <span className="font-geist text-xs text-[#85857f]">
+                            {activePage + 1} / {pullRequests.length}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => setOdysseusPage((page) => (page + 1) % pullRequests.length)}
+                            className="rounded-full border border-[#43433f] p-2 text-[#a8a8a1] transition hover:border-[#a3e635] hover:text-[#a3e635]"
+                            aria-label="View next Odysseus AI pull request"
+                          >
+                            <FiArrowRight />
+                          </button>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </article>
+                  );
+                })()
               ))}
             </div>
           </div>
