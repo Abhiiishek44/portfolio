@@ -5,57 +5,74 @@ const TouchCursor = () => {
 
   useEffect(() => {
     const cursor = cursorRef.current;
-    let activePointerId = null;
-    let hideTimeout;
-
     if (!cursor) return undefined;
 
-    const moveCursor = (event) => {
-      cursor.style.left = `${event.clientX}px`;
-      cursor.style.top = `${event.clientY}px`;
-    };
+    let frame;
+    let currentX = window.innerWidth / 2;
+    let currentY = window.innerHeight / 2;
+    let targetX = currentX;
+    let targetY = currentY;
+    let activeTouch = null;
+    let hideTimeout;
 
-    const handlePointerDown = (event) => {
-      if (event.pointerType !== 'touch') return;
-
-      window.clearTimeout(hideTimeout);
-      activePointerId = event.pointerId;
-      moveCursor(event);
-      cursor.classList.add('is-visible', 'is-pressed');
+    const animate = () => {
+      currentX += (targetX - currentX) * 0.22;
+      currentY += (targetY - currentY) * 0.22;
+      cursor.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
+      frame = window.requestAnimationFrame(animate);
     };
 
     const handlePointerMove = (event) => {
-      if (event.pointerType === 'touch' && event.pointerId === activePointerId) {
-        moveCursor(event);
+      targetX = event.clientX;
+      targetY = event.clientY;
+
+      if (event.pointerType === 'mouse') {
+        cursor.classList.add('is-visible');
+        const interactive = event.target.closest('a, button, [role="button"], input, textarea');
+        cursor.classList.toggle('is-hovering', Boolean(interactive));
+        cursor.classList.toggle('on-grid', Boolean(event.target.closest('.interactive-grid')));
+      } else if (event.pointerId === activeTouch) {
+        cursor.classList.add('is-visible');
       }
     };
 
-    const handlePointerEnd = (event) => {
-      if (event.pointerId !== activePointerId) return;
-
-      moveCursor(event);
-      activePointerId = null;
-      cursor.classList.remove('is-pressed');
-      hideTimeout = window.setTimeout(() => {
-        cursor.classList.remove('is-visible');
-      }, 180);
+    const handlePointerDown = (event) => {
+      targetX = event.clientX;
+      targetY = event.clientY;
+      cursor.classList.add('is-visible', 'is-pressed');
+      if (event.pointerType === 'touch') activeTouch = event.pointerId;
+      window.clearTimeout(hideTimeout);
     };
 
-    window.addEventListener('pointerdown', handlePointerDown, { passive: true });
+    const handlePointerUp = (event) => {
+      cursor.classList.remove('is-pressed');
+      if (event.pointerType === 'touch' && event.pointerId === activeTouch) {
+        activeTouch = null;
+        hideTimeout = window.setTimeout(() => cursor.classList.remove('is-visible'), 180);
+      }
+    };
+
+    const handleMouseLeave = () => cursor.classList.remove('is-visible', 'on-grid');
+
+    frame = window.requestAnimationFrame(animate);
     window.addEventListener('pointermove', handlePointerMove, { passive: true });
-    window.addEventListener('pointerup', handlePointerEnd, { passive: true });
-    window.addEventListener('pointercancel', handlePointerEnd, { passive: true });
+    window.addEventListener('pointerdown', handlePointerDown, { passive: true });
+    window.addEventListener('pointerup', handlePointerUp, { passive: true });
+    window.addEventListener('pointercancel', handlePointerUp, { passive: true });
+    document.documentElement.addEventListener('mouseleave', handleMouseLeave);
 
     return () => {
       window.clearTimeout(hideTimeout);
-      window.removeEventListener('pointerdown', handlePointerDown);
+      window.cancelAnimationFrame(frame);
       window.removeEventListener('pointermove', handlePointerMove);
-      window.removeEventListener('pointerup', handlePointerEnd);
-      window.removeEventListener('pointercancel', handlePointerEnd);
+      window.removeEventListener('pointerdown', handlePointerDown);
+      window.removeEventListener('pointerup', handlePointerUp);
+      window.removeEventListener('pointercancel', handlePointerUp);
+      document.documentElement.removeEventListener('mouseleave', handleMouseLeave);
     };
   }, []);
 
-  return <span ref={cursorRef} className="touch-cursor" aria-hidden="true" />;
+  return <span ref={cursorRef} className="custom-cursor" aria-hidden="true"><i /></span>;
 };
 
 export default TouchCursor;

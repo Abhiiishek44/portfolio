@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { FiArrowLeft, FiCamera, FiX } from 'react-icons/fi';
+import { useEffect, useRef, useState } from 'react';
+import { FiArrowLeft, FiArrowUpRight, FiCamera, FiX } from 'react-icons/fi';
 import Navbar from '../components/Navbar';
 import me1 from '../assets/photoDump/me1.jpeg';
 import me2 from '../assets/photoDump/me2.jpeg';
@@ -10,114 +10,112 @@ const photos = [
   { src: me1, title: 'Photo 01', tone: 'Portrait' },
   { src: me2, title: 'Photo 02', tone: 'Memory' },
   { src: me3, title: 'Photo 03', tone: 'Moment' },
-  { src: me4, title: 'Photo 04', tone: 'Square Frame' },
+  { src: me4, title: 'Photo 04', tone: 'Square frame' },
 ];
 
 const PhotoDump = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
+  const gridRef = useRef(null);
   const activePhoto = photos[activeIndex];
 
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
+    const grid = gridRef.current;
+    if (!grid) return undefined;
+
+    let frame;
+    let x = 0;
+    let y = 0;
+    let pointerX = 0;
+    let pointerY = 0;
+
+    const animate = (time) => {
+      const targetX = Math.sin(time * 0.00046) * 38 + pointerX;
+      const targetY = Math.cos(time * 0.00037) * 30 + pointerY;
+      x += (targetX - x) * 0.045;
+      y += (targetY - y) * 0.045;
+      grid.style.setProperty('--grid-x', `${x}px`);
+      grid.style.setProperty('--grid-y', `${y}px`);
+      frame = window.requestAnimationFrame(animate);
+    };
+    const handlePointerMove = (event) => {
+      const bounds = grid.getBoundingClientRect();
+      pointerX = ((event.clientX - bounds.left) / bounds.width - 0.5) * 30;
+      pointerY = ((event.clientY - bounds.top) / bounds.height - 0.5) * 30;
+      grid.style.setProperty('--cursor-x', `${event.clientX - bounds.left}px`);
+      grid.style.setProperty('--cursor-y', `${event.clientY - bounds.top}px`);
+      grid.classList.add('cursor-on-grid');
+    };
+    const handlePointerLeave = () => {
+      pointerX = 0;
+      pointerY = 0;
+      grid.classList.remove('cursor-on-grid');
+    };
+
+    grid.addEventListener('pointermove', handlePointerMove, { passive: true });
+    grid.addEventListener('pointerleave', handlePointerLeave, { passive: true });
+    frame = window.requestAnimationFrame(animate);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      grid.removeEventListener('pointermove', handlePointerMove);
+      grid.removeEventListener('pointerleave', handlePointerLeave);
+      grid.style.removeProperty('--cursor-x');
+      grid.style.removeProperty('--cursor-y');
+      grid.classList.remove('cursor-on-grid');
+    };
+  }, []);
+
   return (
-    <div className="min-h-screen bg-[#1A1A1A] text-[#f5f5f0]">
+    <div className="portfolio-shell photo-shell">
       <Navbar />
 
-      <main className="mx-auto w-full max-w-6xl px-5 py-14 sm:px-8 lg:px-10">
-        <a
-          href="/"
-          className="inline-flex items-center gap-2 text-sm text-[#a8a8a1] transition hover:text-[#f5f5f0]"
-        >
-          <FiArrowLeft />
-          Back Home
-        </a>
-
-        <section className="mt-10 grid gap-10 border-b border-[#30302e] pb-14 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
-          <div>
-            <div className="flex items-center gap-3">
-              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#242423] text-[#a3e635]" aria-hidden="true">
-                <FiCamera size={20} />
-              </span>
-              <p className="font-geist text-xs uppercase tracking-[0.18em] text-[#a3e635]">
-                Photo Dump
-              </p>
-            </div>
-            <h1 className="mt-6 max-w-3xl text-5xl font-semibold leading-tight tracking-[-0.04em] sm:text-6xl">
-              Photos from life outside work.
-            </h1>
-            <p className="mt-5 max-w-xl text-base leading-7 text-[#a8a8a1]">
-              A small collection of people, places, and moments I wanted to keep.
-            </p>
-          </div>
-
-          <div className="overflow-hidden rounded-2xl border border-[#343431] bg-[#20201f] p-3">
-            <button
-              type="button"
-              className="group block w-full overflow-hidden rounded-xl bg-[#242423]"
-              onClick={() => setSelectedPhoto(activePhoto)}
-            >
-              <img
-                src={activePhoto.src}
-                alt={activePhoto.title}
-                className="aspect-[16/11] w-full object-cover transition duration-500 group-hover:scale-[1.02]"
-              />
-            </button>
-            <div className="mt-4 flex items-center justify-between gap-4 px-1 pb-1">
+      <main>
+        <section ref={gridRef} className="photo-hero hero-grid interactive-grid ruled-section">
+          <div className="page-frame photo-hero-inner">
+            <a href="/" className="photo-back"><FiArrowLeft /> Back home</a>
+            <div className="photo-title-row">
               <div>
-                <p className="font-geist text-[11px] uppercase tracking-[0.16em] text-[#a3e635]">
-                  {activePhoto.tone}
-                </p>
-                <h2 className="mt-1 text-xl font-semibold text-[#f5f5f0]">
-                  {activePhoto.title}
-                </h2>
+                <p className="section-label"><FiCamera /> Photo dump / Personal archive</p>
+                <h1>Life outside<br />the code.</h1>
               </div>
-              <p className="font-geist text-[11px] uppercase tracking-[0.16em] text-[#85857f]">
-                {String(activeIndex + 1).padStart(2, '0')} / {String(photos.length).padStart(2, '0')}
-              </p>
+              <p>A small collection of people, places, and moments I wanted to keep.</p>
             </div>
           </div>
         </section>
 
-        <section className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
-          {photos.map((photo, index) => index !== activeIndex && (
-            <button
-              key={photo.title}
-              type="button"
-              className="group overflow-hidden rounded-xl border border-[#343431] bg-[#20201f] text-left transition duration-300 hover:border-[#65655f]"
-              onClick={() => setActiveIndex(index)}
-            >
-              <img
-                src={photo.src}
-                alt={photo.title}
-                className="aspect-[4/5] w-full object-cover transition duration-500 group-hover:scale-[1.025]"
-              />
-              <div className="flex items-center justify-between gap-4 border-t border-[#343431] px-4 py-3">
-                <span className="font-geist text-[11px] uppercase tracking-[0.14em] text-[#a8a8a1]">{photo.title}</span>
-                <span className="font-geist text-[11px] uppercase tracking-[0.14em] text-[#a3e635]">{photo.tone}</span>
-              </div>
+        <section className="photo-gallery ruled-section">
+          <div className="page-frame featured-photo-grid">
+            <div className="featured-photo-copy">
+              <p className="section-label">Currently viewing</p>
+              <span className="photo-index">{String(activeIndex + 1).padStart(2, '0')} / {String(photos.length).padStart(2, '0')}</span>
+              <h2>{activePhoto.title}</h2>
+              <p>{activePhoto.tone} · A frame from the archive.</p>
+              <button type="button" onClick={() => setSelectedPhoto(activePhoto)}>Open full frame <FiArrowUpRight /></button>
+            </div>
+            <button type="button" className="featured-photo" onClick={() => setSelectedPhoto(activePhoto)} aria-label={`Open ${activePhoto.title}`}>
+              <img src={activePhoto.src} alt={activePhoto.title} />
             </button>
-          ))}
+          </div>
+
+          <div className="page-frame photo-thumbnails">
+            {photos.map((photo, index) => (
+              <button key={photo.title} type="button" className={index === activeIndex ? 'active' : ''} onClick={() => setActiveIndex(index)}>
+                <img src={photo.src} alt={photo.title} />
+                <span><b>{photo.title}</b><small>{photo.tone}</small></span>
+              </button>
+            ))}
+          </div>
         </section>
       </main>
 
+      <footer className="photo-footer page-frame"><span>Abhishek Kumbhar · Photo dump</span><a href="/">Return to portfolio <FiArrowUpRight /></a></footer>
+
       {selectedPhoto && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 backdrop-blur-sm"
-          onClick={() => setSelectedPhoto(null)}
-        >
-          <div className="relative max-h-[90vh] max-w-5xl" onClick={(event) => event.stopPropagation()}>
-            <button
-              type="button"
-              className="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-black/60 text-white transition hover:border-[#a3e635] hover:text-[#a3e635]"
-              aria-label="Close photo"
-              onClick={() => setSelectedPhoto(null)}
-            >
-              <FiX size={20} />
-            </button>
-            <img
-              src={selectedPhoto.src}
-              alt={selectedPhoto.title}
-              className="max-h-[90vh] w-full object-contain shadow-2xl shadow-black/60"
-            />
+        <div className="photo-modal" onClick={() => setSelectedPhoto(null)}>
+          <div onClick={(event) => event.stopPropagation()}>
+            <button type="button" aria-label="Close photo" onClick={() => setSelectedPhoto(null)}><FiX /></button>
+            <img src={selectedPhoto.src} alt={selectedPhoto.title} />
           </div>
         </div>
       )}
